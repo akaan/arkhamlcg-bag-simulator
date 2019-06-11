@@ -1,0 +1,66 @@
+@import "~bootstrap/scss/bootstrap";
+
+.app-header {
+  @extend .navbar;
+  @extend .navbar-dark;
+  @extend .bg-dark;
+  h1 {
+    @extend .navbar-brand;
+    @extend .mb-0;
+  }
+}
+
+.app {
+  @extend .container;
+  & > div {
+    @extend .row;
+    & > div {
+      @extend .col-sm;
+    }
+  }
+}
+
+.odds-table {
+  @extend .table;
+  @extend .table-sm;
+}
+
+.bag-editor {
+  @extend .container;
+  @extend .p-3;
+  table {
+    @extend .table;
+    @extend .table-sm;
+  }
+}
+
+.token-count-editor {
+  .controls {
+    @extend .btn-group;
+  }
+  button {
+    @extend .btn;
+    @extend .btn-sm;
+    &.add {
+      @extend .btn-success;
+    }
+    &.remove {
+      @extend .btn-danger;
+    }
+  }
+}
+
+.effects-editor {
+  @extend .container;
+  @extend .p-3;
+  table {
+    @extend .table;
+    @extend .table-sm;
+  }
+}
+
+.token-effect-editor {
+  select {
+    @extend .form-control;
+  }
+}
