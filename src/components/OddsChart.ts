@@ -1,13 +1,8 @@
 import { div, VNode } from "@cycle/dom";
 import { Bag, OddsFn, OutcomeFunction, TokenEffects } from "arkham-odds";
 import { Stream } from "xstream";
+import { PullProtocol } from "../constants";
 import { ChartRequests } from "../drivers/highchartsDriver";
-
-interface PullProtocol {
-  numberOfTokensToPull: number;
-  oddsFunction: OddsFn;
-  outcomeFunction: (d: number) => OutcomeFunction;
-}
 
 interface BagEffectsAndProtocol {
   bag: Bag;

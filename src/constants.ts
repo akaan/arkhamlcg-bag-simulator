@@ -1,4 +1,18 @@
-import { Bags, Token } from "arkham-odds";
+import {
+  Bags,
+  darkProphecy,
+  odds,
+  OddsFn,
+  oddsWithRedraw,
+  oliveMcBride,
+  oliveMcBrideWithSkull,
+  OutcomeFunction,
+  recallTheFuture,
+  ritualCandles,
+  success,
+  successChoosingBest,
+  Token
+} from "arkham-odds";
 
 export const AvailableBags: Array<[string, Token[]]> = [
   ["Night of the Zealot (Easy)", Bags.NightOfTheZealot.Easy],
@@ -29,4 +43,68 @@ export const AvailableBags: Array<[string, Token[]]> = [
   ["The Labyrinths of Lunacy (Hard)", Bags.TheLabyrinthsOfLunacy.Hard],
   ["Guardians of the Abyss (Standard)", Bags.GuardiansOfTheAbyss.Standard],
   ["Guardians of the Abyss (Hard)", Bags.GuardiansOfTheAbyss.Hard]
+];
+
+export interface PullProtocol {
+  numberOfTokensToPull: number;
+  oddsFunction: OddsFn;
+  outcomeFunction: (d: number) => OutcomeFunction;
+}
+
+export const StandardPullProtocol: PullProtocol = {
+  numberOfTokensToPull: 1,
+  oddsFunction: odds,
+  outcomeFunction: success
+};
+
+export const AvailableCardAbilities: Array<[string, PullProtocol]> = [
+  ["None", StandardPullProtocol],
+  [
+    "Wendy's ability",
+    {
+      numberOfTokensToPull: 2,
+      oddsFunction: oddsWithRedraw,
+      outcomeFunction: successChoosingBest
+    }
+  ],
+  [
+    "Ritual Candles",
+    {
+      numberOfTokensToPull: 1,
+      oddsFunction: odds,
+      outcomeFunction: ritualCandles
+    }
+  ],
+  [
+    "Olive McBride",
+    {
+      numberOfTokensToPull: 3,
+      oddsFunction: odds,
+      outcomeFunction: oliveMcBride
+    }
+  ],
+  [
+    "Olive McBride (and get a Skull)",
+    {
+      numberOfTokensToPull: 3,
+      oddsFunction: odds,
+      outcomeFunction: oliveMcBrideWithSkull
+    }
+  ],
+  [
+    "Dark Prophecy",
+    {
+      numberOfTokensToPull: 5,
+      oddsFunction: odds,
+      outcomeFunction: darkProphecy
+    }
+  ],
+  [
+    "Recall the Future",
+    {
+      numberOfTokensToPull: 1,
+      oddsFunction: odds,
+      outcomeFunction: recallTheFuture
+    }
+  ]
 ];

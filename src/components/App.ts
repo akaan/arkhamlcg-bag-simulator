@@ -6,22 +6,26 @@ import {
   Bags,
   DefaultTokenEffects,
   Modifier,
-  odds,
-  success,
   Token,
   TokenEffect,
   TokenEffects
 } from "arkham-odds";
 import xs, { Stream } from "xstream";
+import { StandardPullProtocol } from "../constants";
 import { Sinks, Sources } from "../interfaces";
 import { BagEditor, fromTokens, State as BagConfiguration } from "./BagEditor";
 import { EffectsEditor, State as EditedTokenEffects } from "./EffectsEditor";
 import { OddsChart, Props as OddsChartProps } from "./OddsChart";
+import {
+  PullProtocolSelector,
+  State as AbilityAndProtocol
+} from "./PullProtocolSelector";
 import { State as TokenCount } from "./TokenCountEditor";
 
 export interface State {
   bagConfiguration: BagConfiguration;
   tokenEffects: EditedTokenEffects;
+  pullProtocol: AbilityAndProtocol;
 }
 
 export function App(sources: Sources<State>): Sinks<State> {
@@ -33,11 +37,7 @@ export function App(sources: Sources<State>): Sinks<State> {
       bagEffectsAndProtocol: {
         bag: toBag(state.bagConfiguration.tokensInBag),
         effects: DefaultTokenEffects.merge(toEffects(state.tokenEffects)),
-        protocol: {
-          numberOfTokensToPull: 1,
-          oddsFunction: odds,
-          outcomeFunction: success
-        }
+        protocol: state.pullProtocol.protocol
       }
     };
   });
@@ -52,6 +52,13 @@ export function App(sources: Sources<State>): Sinks<State> {
   const effectsEditor = isolate(EffectsEditor, "tokenEffects")(sources);
   const effectsEditorReducer = effectsEditor.state as Stream<Reducer<State>>;
 
+  const pullProtocolSelector = isolate(PullProtocolSelector, "pullProtocol")(
+    sources
+  );
+  const pullProtocolSelectorReducer = pullProtocolSelector.state as Stream<
+    Reducer<State>
+  >;
+
   const initReducer$: Stream<Reducer<State>> = xs.of(function initReducer(
     _prevState: State | undefined
   ): State | undefined {
@@ -59,23 +66,37 @@ export function App(sources: Sources<State>): Sinks<State> {
   });
 
   const view$ = xs
-    .combine(oddsChart.DOM, bagEditor.DOM, effectsEditor.DOM)
+    .combine(
+      oddsChart.DOM,
+      bagEditor.DOM,
+      effectsEditor.DOM,
+      pullProtocolSelector.DOM
+    )
     .map(
-      ([oddsChartVNode, bagEditorVNode, effectsEditorVNode]: [
-        VNode,
-        VNode,
-        VNode
-      ]) => {
+      ([
+        oddsChartVNode,
+        bagEditorVNode,
+        effectsEditorVNode,
+        pullProtocolSelectorReducerVNode
+      ]: [VNode, VNode, VNode, VNode]) => {
         return div(".app", [
           div([oddsChartVNode]),
-          div([div(bagEditorVNode), div(effectsEditorVNode)])
+          div([
+            div(bagEditorVNode),
+            div([pullProtocolSelectorReducerVNode, effectsEditorVNode])
+          ])
         ]);
       }
     );
 
   return {
     DOM: view$,
-    state: xs.merge(initReducer$, bagEditorReducer, effectsEditorReducer),
+    state: xs.merge(
+      initReducer$,
+      bagEditorReducer,
+      effectsEditorReducer,
+      pullProtocolSelectorReducer
+    ),
     charts: oddsChart.charts
   };
 }
@@ -115,7 +136,11 @@ const initialState: State = {
     { tokenFace: Token.CULTIST, effect: new Modifier(-2) },
     { tokenFace: Token.TABLET, effect: new Modifier(-2) },
     { tokenFace: Token.ELDER_THING, effect: new Modifier(-2) }
-  ]
+  ],
+  pullProtocol: {
+    abilitySelected: "None",
+    protocol: StandardPullProtocol
+  }
 };
 
 const skillMinusDiffRange = [-4, -3, -2, -1, 0, 1, 2, 3, 4, 5];

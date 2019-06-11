@@ -10,6 +10,7 @@ import { expect } from "chai";
 import "mocha";
 import xs from "xstream";
 import { OddsChart, Props } from "../../src/components/OddsChart";
+import { StandardPullProtocol } from "../../src/constants";
 
 describe("OddsChart", () => {
   it("renders an empty placeholder for the chart", () => {
@@ -19,11 +20,7 @@ describe("OddsChart", () => {
         bagEffectsAndProtocol: {
           bag: new Bag([]),
           effects: new TokenEffects([]),
-          protocol: {
-            numberOfTokensToPull: 1,
-            oddsFunction: odds,
-            outcomeFunction: success
-          }
+          protocol: StandardPullProtocol
         }
       } as Props)
     });
@@ -48,11 +45,7 @@ describe("OddsChart", () => {
       bagEffectsAndProtocol: {
         bag: new Bag(tokens),
         effects,
-        protocol: {
-          numberOfTokensToPull: 1,
-          oddsFunction: odds,
-          outcomeFunction: success
-        }
+        protocol: StandardPullProtocol
       }
     }));
 

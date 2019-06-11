@@ -72,3 +72,12 @@
     @extend .form-control;
   }
 }
+
+.pull-protocol-selector {
+  @extend .container;
+  @extend .p-3;
+  @extend .form-group;
+  select {
+    @extend .form-control;
+  }
+}
