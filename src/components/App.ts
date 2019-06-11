@@ -6,8 +6,6 @@ import {
   Bags,
   DefaultTokenEffects,
   Modifier,
-  odds,
-  success,
   Token,
   TokenEffect,
   TokenEffects
@@ -16,7 +14,7 @@ import xs, { Stream } from "xstream";
 import { Sinks, Sources } from "../interfaces";
 import { BagEditor, fromTokens, State as BagConfiguration } from "./BagEditor";
 import { EffectsEditor, State as EditedTokenEffects } from "./EffectsEditor";
-import { OddsChart } from "./OddsChart";
+import { OddsChart, Props as OddsChartProps } from "./OddsChart";
 import { State as TokenCount } from "./TokenCountEditor";
 
 export interface State {
@@ -27,22 +25,18 @@ export interface State {
 export function App(sources: Sources<State>): Sinks<State> {
   const state$ = sources.state.stream;
 
-  const computedOdds$ = state$.map(state => {
-    return skillMinusDiffRange.map(skillMinusDifficulty => ({
-      odds:
-        100 *
-        odds(
-          1,
-          toBag(state.bagConfiguration.tokensInBag),
-          DefaultTokenEffects.merge(toEffects(state.tokenEffects)),
-          success(skillMinusDifficulty)
-        ),
-      skillMinusDifficulty
-    }));
+  const configurations$: Stream<OddsChartProps> = state$.map(state => {
+    return {
+      skillMinusDifficultyRange: skillMinusDiffRange,
+      bagAndEffects: {
+        bag: toBag(state.bagConfiguration.tokensInBag),
+        effects: DefaultTokenEffects.merge(toEffects(state.tokenEffects))
+      }
+    };
   });
 
   const oddsChart = OddsChart({
-    props$: computedOdds$.map(computedOdds => ({ computedOdds }))
+    props$: configurations$
   });
 
   const bagEditor = isolate(BagEditor, "bagConfiguration")(sources);

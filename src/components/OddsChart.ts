@@ -1,14 +1,16 @@
 import { div, VNode } from "@cycle/dom";
+import { Bag, odds, success, TokenEffects } from "arkham-odds";
 import { Stream } from "xstream";
 import { ChartRequests } from "../drivers/highchartsDriver";
 
-interface ComputedOdds {
-  skillMinusDifficulty: number;
-  odds: number;
+interface BagAndEffects {
+  bag: Bag;
+  effects: TokenEffects;
 }
 
 export interface Props {
-  computedOdds: ComputedOdds[];
+  skillMinusDifficultyRange: number[];
+  bagAndEffects: BagAndEffects;
 }
 
 interface Sources {
@@ -22,55 +24,17 @@ interface Sinks {
 
 export function OddsChart(sources: Sources): Sinks {
   const chartRequests$: Stream<ChartRequests> = sources.props$.map(props => {
-    const series: Highcharts.SeriesLineOptions[] = [
-      {
-        name: "Unsaved",
-        type: "line",
-        tooltip: {
-          valueDecimals: 2,
-          valueSuffix: "%"
-        },
-        data: props.computedOdds.map(computedOdd => computedOdd.odds)
-      }
+    const series = [
+      makeSerie(
+        "Unsaved",
+        props.skillMinusDifficultyRange,
+        props.bagAndEffects.bag,
+        props.bagAndEffects.effects
+      )
     ];
-    const testChartOptions: Highcharts.Options = {
-      title: { text: "Odds of success" },
-      xAxis: {
-        title: { text: "Skill - Difficulty" }
-      },
-      yAxis: {
-        title: { text: "Odds of success" },
-        labels: { format: "{value:.2f}%" }
-      },
-      legend: { layout: "vertical", align: "right", verticalAlign: "middle" },
-      plotOptions: {
-        series: {
-          label: { connectorAllowed: false },
-          dataLabels: { enabled: true, format: "{point.y:.2f}%" },
-          pointStart: -4
-        }
-      },
-      series,
-      responsive: {
-        rules: [
-          {
-            condition: {
-              maxWidth: 500
-            },
-            chartOptions: {
-              legend: {
-                layout: "horizontal",
-                align: "center",
-                verticalAlign: "bottom"
-              }
-            }
-          }
-        ]
-      }
-    };
 
     return {
-      "odds-chart": testChartOptions
+      "odds-chart": makeChart(props.skillMinusDifficultyRange, series)
     } as ChartRequests;
   });
 
@@ -82,4 +46,65 @@ export function OddsChart(sources: Sources): Sinks {
 
 function view(props$: Stream<Props>) {
   return props$.map(_props => div("#odds-chart"));
+}
+
+function makeSerie(
+  title: string,
+  range: number[],
+  bag: Bag,
+  effects: TokenEffects
+): Highcharts.SeriesLineOptions {
+  return {
+    name: title,
+    type: "line",
+    tooltip: {
+      valueDecimals: 2,
+      valueSuffix: "%"
+    },
+    data: range
+      .sort((a, b) => a - b)
+      .map(d => 100 * odds(1, bag, effects, success(d)))
+  };
+}
+
+function makeChart(
+  range: number[],
+  series: Highcharts.SeriesLineOptions[]
+): Highcharts.Options {
+  return {
+    title: { text: "Odds of success" },
+    xAxis: {
+      title: { text: "Skill - Difficulty" }
+    },
+    yAxis: {
+      title: { text: "Odds of success" },
+      labels: { format: "{value:.2f}%" },
+      min: 0,
+      max: 100
+    },
+    legend: { layout: "vertical", align: "right", verticalAlign: "middle" },
+    plotOptions: {
+      series: {
+        label: { connectorAllowed: false },
+        pointStart: range.sort((a, b) => a - b)[0]
+      }
+    },
+    series,
+    responsive: {
+      rules: [
+        {
+          condition: {
+            maxWidth: 500
+          },
+          chartOptions: {
+            legend: {
+              layout: "horizontal",
+              align: "center",
+              verticalAlign: "bottom"
+            }
+          }
+        }
+      ]
+    }
+  };
 }
