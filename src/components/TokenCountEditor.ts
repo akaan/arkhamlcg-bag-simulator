@@ -17,7 +17,7 @@ export interface State {
   count: number;
 }
 
-interface DOMIntent {
+interface Intent {
   addOne$: Stream<null>;
   removeOne$: Stream<null>;
 }
@@ -83,7 +83,7 @@ function view(state$: Stream<State>): Stream<VNode> {
   });
 }
 
-function intent(DOM: DOMSource | MockedDOMSource): DOMIntent {
+function intent(DOM: DOMSource | MockedDOMSource): Intent {
   // https://github.com/cyclejs/cyclejs/issues/869
   if (DOM instanceof MockedDOMSource) {
     return {

@@ -23,7 +23,7 @@ export interface State {
   effect: TokenEffect;
 }
 
-interface DOMIntent {
+interface Intent {
   effectSelected$: Stream<TokenEffect>;
 }
 
@@ -36,7 +36,7 @@ export function TokenEffectEditor(sources: Sources<State>): Sinks<State> {
   };
 }
 
-function intent(DOM: DOMSource | MockedDOMSource): DOMIntent {
+function intent(DOM: DOMSource | MockedDOMSource): Intent {
   // https://github.com/cyclejs/cyclejs/issues/869
   if (DOM instanceof MockedDOMSource) {
     return {
