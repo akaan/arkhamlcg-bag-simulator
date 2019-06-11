@@ -1,10 +1,11 @@
 import { div, VNode } from "@cycle/dom";
-import { Bag, OddsFn, OutcomeFunction, TokenEffects } from "arkham-odds";
+import { Bag, TokenEffects } from "arkham-odds";
 import { Stream } from "xstream";
 import { PullProtocol } from "../constants";
 import { ChartRequests } from "../drivers/highchartsDriver";
 
 interface BagEffectsAndProtocol {
+  title: string;
   bag: Bag;
   effects: TokenEffects;
   protocol: PullProtocol;
@@ -28,7 +29,7 @@ export function OddsChart(sources: Sources): Sinks {
   const chartRequests$: Stream<ChartRequests> = sources.props$.map(props => {
     const series = [
       makeSerie(
-        "Unsaved",
+        props.bagEffectsAndProtocol.title,
         props.skillMinusDifficultyRange,
         props.bagEffectsAndProtocol
       )

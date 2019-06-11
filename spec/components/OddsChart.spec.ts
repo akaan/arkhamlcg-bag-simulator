@@ -18,6 +18,7 @@ describe("OddsChart", () => {
       props$: xs.of({
         skillMinusDifficultyRange: [],
         bagEffectsAndProtocol: {
+          title: "Odds",
           bag: new Bag([]),
           effects: new TokenEffects([]),
           protocol: StandardPullProtocol
@@ -38,11 +39,12 @@ describe("OddsChart", () => {
 
     const propsStreamValues: Props[] = [
       [Token.MINUS_ONE, Token.ZERO, Token.PLUS_ONE],
-      [Token.MINUS_ONE, Token.ZERO, Token.PLUS_ONE],
-      [Token.MINUS_ONE, Token.ZERO, Token.PLUS_ONE]
-    ].map(tokens => ({
+      [Token.MINUS_ONE, Token.MINUS_ONE, Token.ZERO],
+      [Token.MINUS_ONE, Token.MINUS_ONE, Token.PLUS_ONE]
+    ].map((tokens, idx) => ({
       skillMinusDifficultyRange: range,
       bagEffectsAndProtocol: {
+        title: `Odds ${idx}`,
         bag: new Bag(tokens),
         effects,
         protocol: StandardPullProtocol

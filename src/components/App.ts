@@ -35,6 +35,7 @@ export function App(sources: Sources<State>): Sinks<State> {
     return {
       skillMinusDifficultyRange: skillMinusDiffRange,
       bagEffectsAndProtocol: {
+        title: "Odds",
         bag: toBag(state.bagConfiguration.tokensInBag),
         effects: DefaultTokenEffects.merge(toEffects(state.tokenEffects)),
         protocol: state.pullProtocol.protocol
