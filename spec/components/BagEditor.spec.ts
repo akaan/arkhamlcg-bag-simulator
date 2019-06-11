@@ -95,7 +95,7 @@ describe("BagEditor", () => {
   it("changes the bag composition when a new bag is selected", done => {
     const sources = {
       DOM: mockDOMSource({
-        ".select-bag": {
+        "#select-bag": {
           change: xs.of({ target: { value: "The Circle Undone (Standard)" } })
         }
       }),

@@ -1,6 +1,7 @@
 import {
   div,
   DOMSource,
+  label,
   MockedDOMSource,
   option,
   select,
@@ -57,14 +58,14 @@ function intent(DOM: DOMSource | MockedDOMSource): Intent {
   // https://github.com/cyclejs/cyclejs/issues/869
   if (DOM instanceof MockedDOMSource) {
     return {
-      selectedBag$: DOM.select(".select-bag")
+      selectedBag$: DOM.select("#select-bag")
         .events("change")
         .map((event: Event) => (event.target as HTMLInputElement).value)
         .map((s: string) => (s === "none" ? null : s))
     };
   } else {
     return {
-      selectedBag$: DOM.select(".select-bag")
+      selectedBag$: DOM.select("#select-bag")
         .events("change")
         .map(event => (event.target as HTMLInputElement).value)
         .map((s: string) => (s === "none" ? null : s))
@@ -105,7 +106,7 @@ function model(
           };
         } else {
           const bagToTokens = AvailableBags.find(
-            ([label, _tokens]) => label === newBagValue
+            ([bagLabel, _tokens]) => bagLabel === newBagValue
           );
           if (bagToTokens === undefined) {
             return {
@@ -129,15 +130,18 @@ function model(
 function view(state$: Stream<State>, editors: Stream<VNode>): Stream<VNode> {
   return xs.combine(state$, editors).map(([state, vnode]) => {
     return div(".bag-editor", [
-      select(
-        ".select-bag",
-        {
-          attrs: {
-            value: state.selectedBag === null ? "none" : state.selectedBag
-          }
-        },
-        optionsForBags(state.selectedBag)
-      ),
+      div(".bag-selection", [
+        label({ attrs: { for: "select-bag" } }, "Load a bag :"),
+        select(
+          "#select-bag",
+          {
+            attrs: {
+              value: state.selectedBag === null ? "none" : state.selectedBag
+            }
+          },
+          optionsForBags(state.selectedBag)
+        )
+      ]),
       table([
         thead([tr([th("Token"), th("Count"), th("Add or remove")])]),
         vnode
@@ -158,15 +162,15 @@ function optionsForBags(selectedBag: string | null): VNode[] {
       "none"
     )
   ].concat(
-    AvailableBags.map(([label, _tokens]) =>
+    AvailableBags.map(([bagLabel, _tokens]) =>
       option(
         {
           attrs: {
-            value: label,
-            selected: label === selectedBag
+            value: bagLabel,
+            selected: bagLabel === selectedBag
           }
         },
-        label
+        bagLabel
       )
     )
   );
