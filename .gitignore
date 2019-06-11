@@ -4,5 +4,9 @@ node_modules
 # Yarn
 yarn-error.log
 
+# Test coverage
+.nyc_output
+coverage
+
 # Dist
 dist
