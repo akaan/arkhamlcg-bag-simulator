@@ -1,16 +1,23 @@
 import { div, VNode } from "@cycle/dom";
-import { Bag, odds, success, TokenEffects } from "arkham-odds";
+import { Bag, OddsFn, OutcomeFunction, TokenEffects } from "arkham-odds";
 import { Stream } from "xstream";
 import { ChartRequests } from "../drivers/highchartsDriver";
 
-interface BagAndEffects {
+interface PullProtocol {
+  numberOfTokensToPull: number;
+  oddsFunction: OddsFn;
+  outcomeFunction: (d: number) => OutcomeFunction;
+}
+
+interface BagEffectsAndProtocol {
   bag: Bag;
   effects: TokenEffects;
+  protocol: PullProtocol;
 }
 
 export interface Props {
   skillMinusDifficultyRange: number[];
-  bagAndEffects: BagAndEffects;
+  bagEffectsAndProtocol: BagEffectsAndProtocol;
 }
 
 interface Sources {
@@ -28,8 +35,7 @@ export function OddsChart(sources: Sources): Sinks {
       makeSerie(
         "Unsaved",
         props.skillMinusDifficultyRange,
-        props.bagAndEffects.bag,
-        props.bagAndEffects.effects
+        props.bagEffectsAndProtocol
       )
     ];
 
@@ -51,8 +57,7 @@ function view(props$: Stream<Props>) {
 function makeSerie(
   title: string,
   range: number[],
-  bag: Bag,
-  effects: TokenEffects
+  config: BagEffectsAndProtocol
 ): Highcharts.SeriesLineOptions {
   return {
     name: title,
@@ -63,7 +68,16 @@ function makeSerie(
     },
     data: range
       .sort((a, b) => a - b)
-      .map(d => 100 * odds(1, bag, effects, success(d)))
+      .map(
+        d =>
+          100 *
+          config.protocol.oddsFunction(
+            config.protocol.numberOfTokensToPull,
+            config.bag,
+            config.effects,
+            config.protocol.outcomeFunction(d)
+          )
+      )
   };
 }
 

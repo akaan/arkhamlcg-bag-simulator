@@ -6,6 +6,8 @@ import {
   Bags,
   DefaultTokenEffects,
   Modifier,
+  odds,
+  success,
   Token,
   TokenEffect,
   TokenEffects
@@ -28,9 +30,14 @@ export function App(sources: Sources<State>): Sinks<State> {
   const configurations$: Stream<OddsChartProps> = state$.map(state => {
     return {
       skillMinusDifficultyRange: skillMinusDiffRange,
-      bagAndEffects: {
+      bagEffectsAndProtocol: {
         bag: toBag(state.bagConfiguration.tokensInBag),
-        effects: DefaultTokenEffects.merge(toEffects(state.tokenEffects))
+        effects: DefaultTokenEffects.merge(toEffects(state.tokenEffects)),
+        protocol: {
+          numberOfTokensToPull: 1,
+          oddsFunction: odds,
+          outcomeFunction: success
+        }
       }
     };
   });

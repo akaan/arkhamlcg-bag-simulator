@@ -16,7 +16,15 @@ describe("OddsChart", () => {
     const sinks = OddsChart({
       props$: xs.of({
         skillMinusDifficultyRange: [],
-        bagAndEffects: { bag: new Bag([]), effects: new TokenEffects([]) }
+        bagEffectsAndProtocol: {
+          bag: new Bag([]),
+          effects: new TokenEffects([]),
+          protocol: {
+            numberOfTokensToPull: 1,
+            oddsFunction: odds,
+            outcomeFunction: success
+          }
+        }
       } as Props)
     });
 
@@ -37,9 +45,14 @@ describe("OddsChart", () => {
       [Token.MINUS_ONE, Token.ZERO, Token.PLUS_ONE]
     ].map(tokens => ({
       skillMinusDifficultyRange: range,
-      bagAndEffects: {
+      bagEffectsAndProtocol: {
         bag: new Bag(tokens),
-        effects
+        effects,
+        protocol: {
+          numberOfTokensToPull: 1,
+          oddsFunction: odds,
+          outcomeFunction: success
+        }
       }
     }));
 
@@ -49,8 +62,8 @@ describe("OddsChart", () => {
           100 *
           odds(
             1,
-            props.bagAndEffects.bag,
-            props.bagAndEffects.effects,
+            props.bagEffectsAndProtocol.bag,
+            props.bagEffectsAndProtocol.effects,
             success(d)
           )
       );

@@ -571,9 +571,9 @@ argparse@^1.0.7:
     sprintf-js "~1.0.2"
 
 arkham-odds@^0.5.1:
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/arkham-odds/-/arkham-odds-0.5.2.tgz#77d02765c152d2ece68053cbcf636b3dd1a5fda1"
-  integrity sha512-bYQ8Y0u+jrIw340PWROvc1LVRcEZBIAqttUNPagEmkbXxV2gztHmhD3gQrN7Nj6dq/T+LpwOur7oSZ+DR8UA4w==
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/arkham-odds/-/arkham-odds-0.5.3.tgz#51b5b54b8a091a58f4878a2ddd9aefa7ed666c7b"
+  integrity sha512-D3Jh3xBQkDIXxCX/TiYN/Q8x/CuTtZwKW8F7g1VR2IQEZaV54ktoGz3nSLYqk0ugNC6CgsXZWahIRE/lKlWK/g==
 
 arr-diff@^4.0.0:
   version "4.0.0"
