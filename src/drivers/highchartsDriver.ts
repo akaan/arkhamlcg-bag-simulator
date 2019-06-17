@@ -25,7 +25,7 @@ class HighchartsListener implements Listener<ChartRequests> {
   public next(requests: ChartRequests): void {
     Object.entries(requests).forEach(([target, options]) => {
       if (this._charts[target] != null) {
-        this._charts[target].update(options);
+        this._charts[target].update(options, true, true, true);
       } else {
         this._charts[target] = Highcharts.chart(target, options);
       }

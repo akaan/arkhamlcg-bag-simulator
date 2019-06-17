@@ -1,5 +1,6 @@
 import { div, VNode } from "@cycle/dom";
 import { Bag, TokenEffects } from "arkham-odds";
+import * as Highcharts from "highcharts";
 import { Stream } from "xstream";
 import { PullProtocol } from "../constants";
 import { ChartRequests } from "../drivers/highchartsDriver";
@@ -13,7 +14,7 @@ interface BagEffectsAndProtocol {
 
 export interface Props {
   skillMinusDifficultyRange: number[];
-  bagEffectsAndProtocol: BagEffectsAndProtocol;
+  bagEffectsAndProtocols: BagEffectsAndProtocol[];
 }
 
 interface Sources {
@@ -27,13 +28,13 @@ interface Sinks {
 
 export function OddsChart(sources: Sources): Sinks {
   const chartRequests$: Stream<ChartRequests> = sources.props$.map(props => {
-    const series = [
+    const series = props.bagEffectsAndProtocols.map(bagEffectsAndProtocol =>
       makeSerie(
-        props.bagEffectsAndProtocol.title,
+        bagEffectsAndProtocol.title,
         props.skillMinusDifficultyRange,
-        props.bagEffectsAndProtocol
+        bagEffectsAndProtocol
       )
-    ];
+    );
 
     return {
       "odds-chart": makeChart(props.skillMinusDifficultyRange, series)

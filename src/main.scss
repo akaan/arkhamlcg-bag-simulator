@@ -33,7 +33,6 @@
     @extend .table-sm;
   }
   .bag-selection {
-    @extend .card;
     @extend .form-group;
     @extend .p-1;
   }
@@ -79,5 +78,21 @@
   @extend .form-group;
   select {
     @extend .form-control;
+  }
+}
+
+.bag-configuration-saver {
+  @extend .container;
+  @extend .p-3;
+  @extend .form-row;
+  input {
+    @extend .form-control;
+    @extend .col;
+    @extend .mr-1;
+  }
+  button {
+    @extend .btn;
+    @extend .btn-primary;
+    @extend .col-2;
   }
 }
