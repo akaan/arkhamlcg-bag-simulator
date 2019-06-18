@@ -8,6 +8,10 @@
     @extend .navbar-brand;
     @extend .mb-0;
   }
+  p {
+    @extend .navbar-text;
+    @extend .mb-0;
+  }
 }
 
 .app {
