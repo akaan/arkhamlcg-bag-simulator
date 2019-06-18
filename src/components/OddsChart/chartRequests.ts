@@ -1,55 +1,7 @@
-import { div, VNode } from "@cycle/dom";
-import { Bag, TokenEffects } from "arkham-odds";
 import * as Highcharts from "highcharts";
 import { Stream } from "xstream";
-import { PullProtocol } from "../constants";
-import { ChartRequests } from "../drivers/highchartsDriver";
-
-interface BagEffectsAndProtocol {
-  title: string;
-  bag: Bag;
-  effects: TokenEffects;
-  protocol: PullProtocol;
-}
-
-export interface Props {
-  skillMinusDifficultyRange: number[];
-  bagEffectsAndProtocols: BagEffectsAndProtocol[];
-}
-
-interface Sources {
-  props$: Stream<Props>;
-}
-
-interface Sinks {
-  DOM: Stream<VNode>;
-  charts: Stream<ChartRequests>;
-}
-
-export function OddsChart(sources: Sources): Sinks {
-  const chartRequests$: Stream<ChartRequests> = sources.props$.map(props => {
-    const series = props.bagEffectsAndProtocols.map(bagEffectsAndProtocol =>
-      makeSerie(
-        bagEffectsAndProtocol.title,
-        props.skillMinusDifficultyRange,
-        bagEffectsAndProtocol
-      )
-    );
-
-    return {
-      "odds-chart": makeChart(props.skillMinusDifficultyRange, series)
-    } as ChartRequests;
-  });
-
-  return {
-    DOM: view(sources.props$),
-    charts: chartRequests$
-  };
-}
-
-function view(props$: Stream<Props>) {
-  return props$.map(_props => div("#odds-chart"));
-}
+import { BagEffectsAndProtocol, Props } from ".";
+import { ChartRequests } from "../../drivers/highchartsDriver";
 
 function makeSerie(
   title: string,
@@ -118,4 +70,20 @@ function makeChart(
       ]
     }
   };
+}
+
+export function chartRequests(props: Stream<Props>): Stream<ChartRequests> {
+  return props.map(p => {
+    const series = p.bagEffectsAndProtocols.map(bagEffectsAndProtocol =>
+      makeSerie(
+        bagEffectsAndProtocol.title,
+        p.skillMinusDifficultyRange,
+        bagEffectsAndProtocol
+      )
+    );
+
+    return {
+      "odds-chart": makeChart(p.skillMinusDifficultyRange, series)
+    } as ChartRequests;
+  });
 }
