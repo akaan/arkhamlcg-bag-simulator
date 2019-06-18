@@ -33,5 +33,3 @@ export function BagEditor(sources: Sources<State>): Sinks<State> {
     state: model(actions, editorSinks.state)
   };
 }
-
-export { fromTokens } from "./model";

@@ -14,7 +14,8 @@ import xs, { Stream } from "xstream";
 import { StandardPullProtocol } from "../constants";
 import { Sinks, Sources } from "../interfaces";
 import { BagConfigurationSaver } from "./BagConfigurationSaver";
-import { BagEditor, fromTokens, State as BagConfiguration } from "./BagEditor";
+import { BagEditor, State as BagConfiguration } from "./BagEditor";
+import { tokensToTokenCount } from "./BagEditor/tokensToTokenCount";
 import { EffectsEditor, State as EditedTokenEffects } from "./EffectsEditor";
 import { OddsChart, Props as OddsChartProps } from "./OddsChart";
 import {
@@ -174,7 +175,7 @@ function toEffects(tokensWithEffect: EditedTokenEffects) {
 const initialState: State = {
   bagConfiguration: {
     selectedBag: "The Dunwich Legacy - Standard",
-    tokensInBag: fromTokens(Bags.TheDunwichLegacy.Standard)
+    tokensInBag: tokensToTokenCount(Bags.TheDunwichLegacy.Standard)
   },
   tokenEffects: [
     { tokenFace: Token.ELDER_SIGN, effect: new Modifier(1) },
