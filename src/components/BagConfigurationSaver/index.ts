@@ -17,7 +17,7 @@ export function BagConfigurationSaver(sources: Sources): Sinks {
   const actions = intent(sources.DOM);
 
   return {
-    DOM: view(actions.saveClicks$),
+    DOM: view(actions),
     saveConfigurationAs$: model(actions)
   };
 }

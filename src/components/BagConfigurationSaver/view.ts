@@ -1,13 +1,17 @@
 import { button, div, input, VNode } from "@cycle/dom";
-import { Stream } from "xstream";
+import xs, { Stream } from "xstream";
+import { Actions } from "./model";
 
-export function view(saveClicks$: Stream<null>): Stream<VNode> {
-  return saveClicks$.startWith(null).map(_ =>
+export function view(actions: Actions): Stream<VNode> {
+  const { saveClicks$, configurationName$ } = actions;
+
+  const inputValue$ = xs.merge(configurationName$, saveClicks$.mapTo(""));
+
+  return inputValue$.startWith("").map(v =>
     div(".bag-configuration-saver", [
       input(".configuration-name", {
         attrs: { type: "text", placeholder: "Configuration name" },
-        // TODO https://github.com/snabbdom/snabbdom/pull/418
-        props: { value: "" }
+        props: { value: v }
       }),
       button(".save-configuration", "Save")
     ])

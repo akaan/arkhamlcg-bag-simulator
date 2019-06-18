@@ -79,4 +79,39 @@ describe("BagConfigurationSaver", () => {
       }
     });
   });
+
+  it("resets the text box when the button is clicked", done => {
+    const sinks = BagConfigurationSaver({
+      DOM: mockDOMSource({
+        ".configuration-name": {
+          change: fromDiagram("a--|", {
+            values: { a: "a value" },
+            timeUnit: 5
+          }).map(v => ({ target: { value: v } }))
+        },
+        ".save-configuration": {
+          click: fromDiagram("-a-|", {
+            values: { a: null },
+            timeUnit: 5
+          })
+        }
+      })
+    });
+
+    const expected = ["", "a value", ""];
+
+    sinks.DOM.subscribe({
+      next: vtree => {
+        const searchTextInput = select("input[type=text]", vtree);
+        expect(searchTextInput.length, "No text box").to.be.equal(1);
+
+        expect(searchTextInput[0].data!.props!.value).to.equal(
+          expected.shift()
+        );
+        if (expected.length === 0) {
+          done();
+        }
+      }
+    });
+  });
 });
