@@ -12,12 +12,12 @@ const defaultState: State = {
   count: 0
 };
 
-export interface Intent {
+export interface Actions {
   addOne$: Stream<any>;
   removeOne$: Stream<any>;
 }
 
-export function model(actions: Intent): Stream<Reducer<State>> {
+export function model(actions: Actions): Stream<Reducer<State>> {
   const init$ = xs.of(function defaultReducer(
     prevState: State | undefined
   ): State | undefined {

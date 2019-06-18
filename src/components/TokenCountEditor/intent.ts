@@ -1,7 +1,7 @@
 import { DOMSource, MockedDOMSource } from "@cycle/dom";
-import { Intent } from "./model";
+import { Actions } from "./model";
 
-export function intent(DOM: DOMSource | MockedDOMSource): Intent {
+export function intent(DOM: DOMSource | MockedDOMSource): Actions {
   // https://github.com/cyclejs/cyclejs/issues/869
   if (DOM instanceof MockedDOMSource) {
     return {
