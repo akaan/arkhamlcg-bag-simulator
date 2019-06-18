@@ -40,7 +40,7 @@ export interface State {
 export function App(sources: Sources<State>): Sinks<State> {
   const state$ = sources.state.stream;
 
-  const configurations$: Stream<OddsChartProps> = state$.map(state => {
+  const chartConfigurations$: Stream<OddsChartProps> = state$.map(state => {
     return {
       skillMinusDifficultyRange: skillMinusDiffRange,
       bagEffectsAndProtocols: [
@@ -62,7 +62,7 @@ export function App(sources: Sources<State>): Sinks<State> {
   });
 
   const oddsChart = OddsChart({
-    props$: configurations$
+    props$: chartConfigurations$
   });
 
   const bagEditor = isolate(BagEditor, "bagConfiguration")(sources);
@@ -96,7 +96,6 @@ export function App(sources: Sources<State>): Sinks<State> {
         prevState: State | undefined
       ): State | undefined {
         if (prevState !== undefined) {
-          console.log(prevState);
           return {
             ...prevState,
             savedConfigurations: prevState.savedConfigurations.concat([
@@ -114,34 +113,14 @@ export function App(sources: Sources<State>): Sinks<State> {
       }
   );
 
-  const view$ = xs
-    .combine(
+  return {
+    DOM: view(
       oddsChart.DOM,
       bagEditor.DOM,
       effectsEditor.DOM,
       pullProtocolSelector.DOM,
       bagConfigurationSaver.DOM
-    )
-    .map(
-      ([
-        oddsChartVNode,
-        bagEditorVNode,
-        effectsEditorVNode,
-        pullProtocolSelectorReducerVNode,
-        bagConfigurationSaverVNode
-      ]: [VNode, VNode, VNode, VNode, VNode]) => {
-        return div(".app", [
-          div([oddsChartVNode]),
-          div([
-            div([bagConfigurationSaverVNode, bagEditorVNode]),
-            div([pullProtocolSelectorReducerVNode, effectsEditorVNode])
-          ])
-        ]);
-      }
-    );
-
-  return {
-    DOM: view$,
+    ),
     state: xs.merge(
       initReducer$,
       saveConfigurationReducer$,
@@ -151,6 +130,24 @@ export function App(sources: Sources<State>): Sinks<State> {
     ),
     charts: oddsChart.charts
   };
+}
+
+function view(
+  oddsChartVNode: Stream<VNode>,
+  bagEditorVNode: Stream<VNode>,
+  effectsEditorVNode: Stream<VNode>,
+  pullProtocolSelectorReducerVNode: Stream<VNode>,
+  bagConfigurationSaverVNode: Stream<VNode>
+): Stream<VNode> {
+  const bottomLeftPanel$ = xs
+    .combine(bagConfigurationSaverVNode, bagEditorVNode)
+    .map(div);
+  const bottomRightPanel$ = xs
+    .combine(pullProtocolSelectorReducerVNode, effectsEditorVNode)
+    .map(div);
+  const bottomPanel$ = xs.combine(bottomLeftPanel$, bottomRightPanel$).map(div);
+  const topPanel$ = oddsChartVNode.map(vnode => div([vnode]));
+  return xs.combine(topPanel$, bottomPanel$).map(vnodes => div(".app", vnodes));
 }
 
 function toBag(tokenCounts: TokenCount[]) {
