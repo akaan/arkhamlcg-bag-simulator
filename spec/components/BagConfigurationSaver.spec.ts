@@ -27,7 +27,7 @@ describe("BagConfigurationSaver", () => {
   it("streams the text box value when the save button is clicked", done => {
     const sinks = BagConfigurationSaver({
       DOM: mockDOMSource({
-        ".configurarion-name": {
+        ".configuration-name": {
           change: fromDiagram("a-b-c--d-----|", {
             values: { a: "N", b: "Na", c: "Nam", d: "Name" },
             timeUnit: 5
@@ -53,7 +53,7 @@ describe("BagConfigurationSaver", () => {
   it("does not stream empty values", done => {
     const sinks = BagConfigurationSaver({
       DOM: mockDOMSource({
-        ".configurarion-name": {
+        ".configuration-name": {
           change: fromDiagram("a--b--c-----|", {
             values: { a: "a value", b: "", c: "another value" },
             timeUnit: 5
