@@ -64,24 +64,37 @@ export function App(sources: Sources<State>): Sinks<State> {
   const oddsChart = OddsChart({
     props$: chartConfigurations$
   });
-
   const bagEditor = isolate(BagEditor, "bagConfiguration")(sources);
-  const bagEditorReducer = bagEditor.state as Stream<Reducer<State>>;
-
   const effectsEditor = isolate(EffectsEditor, "tokenEffects")(sources);
-  const effectsEditorReducer = effectsEditor.state as Stream<Reducer<State>>;
-
   const pullProtocolSelector = isolate(PullProtocolSelector, "pullProtocol")(
     sources
   );
-  const pullProtocolSelectorReducer = pullProtocolSelector.state as Stream<
-    Reducer<State>
-  >;
-
   const bagConfigurationSaver = isolate(BagConfigurationSaver)({
     DOM: sources.DOM
   });
 
+  return {
+    DOM: view(
+      oddsChart.DOM,
+      bagEditor.DOM,
+      effectsEditor.DOM,
+      pullProtocolSelector.DOM,
+      bagConfigurationSaver.DOM
+    ),
+    state: model(
+      bagConfigurationSaver.saveConfigurationAs$,
+      bagEditor.state as Stream<Reducer<State>>,
+      effectsEditor.state as Stream<Reducer<State>>,
+      pullProtocolSelector.state as Stream<Reducer<State>>
+    ),
+    charts: oddsChart.charts
+  };
+}
+
+function model(
+  saveConfigurationAs: Stream<string>,
+  ...childReducers: Array<Stream<Reducer<State>>>
+): Stream<Reducer<State>> {
   const initReducer$: Stream<Reducer<State>> = xs.of(function initReducer(
     _prevState: State | undefined
   ): State | undefined {
@@ -90,7 +103,7 @@ export function App(sources: Sources<State>): Sinks<State> {
 
   const saveConfigurationReducer$: Stream<
     Reducer<State>
-  > = bagConfigurationSaver.saveConfigurationAs$.map(
+  > = saveConfigurationAs.map(
     configName =>
       function saveConfiguration(
         prevState: State | undefined
@@ -113,23 +126,7 @@ export function App(sources: Sources<State>): Sinks<State> {
       }
   );
 
-  return {
-    DOM: view(
-      oddsChart.DOM,
-      bagEditor.DOM,
-      effectsEditor.DOM,
-      pullProtocolSelector.DOM,
-      bagConfigurationSaver.DOM
-    ),
-    state: xs.merge(
-      initReducer$,
-      saveConfigurationReducer$,
-      bagEditorReducer,
-      effectsEditorReducer,
-      pullProtocolSelectorReducer
-    ),
-    charts: oddsChart.charts
-  };
+  return xs.merge(initReducer$, saveConfigurationReducer$, ...childReducers);
 }
 
 function view(
