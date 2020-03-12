@@ -5,13 +5,17 @@ import {
   OddsFn,
   oddsWithRedraw,
   oliveMcBride,
+  oliveMcBrideAndWinchesterDoing1Damage,
+  oliveMcBrideAndWinchesterDoing3Damage,
   oliveMcBrideWithSkull,
   OutcomeFunction,
   recallTheFuture,
   ritualCandles,
   success,
   successChoosingBest,
-  Token
+  Token,
+  winchesterDoing1Damage,
+  winchesterDoing3Damage
 } from "arkham-odds";
 
 export const AvailableBags: Array<[string, Token[]]> = [
@@ -105,6 +109,38 @@ export const AvailableCardAbilities: Array<[string, PullProtocol]> = [
       numberOfTokensToPull: 1,
       oddsFunction: odds,
       outcomeFunction: recallTheFuture
+    }
+  ],
+  [
+    ".35 Winchester doing exactly 1 damage",
+    {
+      numberOfTokensToPull: 1,
+      oddsFunction: odds,
+      outcomeFunction: winchesterDoing1Damage
+    }
+  ],
+  [
+    ".35 Winchester doing exactly 3 damage",
+    {
+      numberOfTokensToPull: 1,
+      oddsFunction: odds,
+      outcomeFunction: winchesterDoing3Damage
+    }
+  ],
+  [
+    "OliveMcBride and .35 Winchester doing exactly 1 damage",
+    {
+      numberOfTokensToPull: 3,
+      oddsFunction: odds,
+      outcomeFunction: oliveMcBrideAndWinchesterDoing1Damage
+    }
+  ],
+  [
+    "OliveMcBride and .35 Winchester doing exactly 3 damage",
+    {
+      numberOfTokensToPull: 3,
+      oddsFunction: odds,
+      outcomeFunction: oliveMcBrideAndWinchesterDoing3Damage
     }
   ]
 ];
