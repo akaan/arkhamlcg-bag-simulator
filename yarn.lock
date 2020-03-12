@@ -570,10 +570,10 @@ argparse@^1.0.7:
   dependencies:
     sprintf-js "~1.0.2"
 
-arkham-odds@^0.5.4:
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/arkham-odds/-/arkham-odds-0.5.4.tgz#c531afdf278e231bcb7c9536e669758fec8cc777"
-  integrity sha512-0/hUBw+C8xheT55zpEj0KoP9C9euUs05bBdC35j05RAVh1D7QBEw822B90UhDVtqxCgNeUJGLwU83Nq9Z7aFyA==
+arkham-odds@^0.5.5:
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/arkham-odds/-/arkham-odds-0.5.5.tgz#242ebde88847ef43262761cef7f7da5b37c89d70"
+  integrity sha512-HIGF5Z4wBlXFjeLxnu/kw0uGJ3Sb/RWiJ+Q8IZZG2Lb30g48bbnpb+JRPc6ZabpzOjFnZ2x9LJnqccp5bkU8eg==
 
 arr-diff@^4.0.0:
   version "4.0.0"

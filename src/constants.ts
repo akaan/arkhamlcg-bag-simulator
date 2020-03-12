@@ -39,6 +39,38 @@ export const AvailableBags: Array<[string, Token[]]> = [
   ["The Circle Undone (Standard)", Bags.TheCircleUndone.Standard],
   ["The Circle Undone (Hard)", Bags.TheCircleUndone.Hard],
   ["The Circle Undone (Expert)", Bags.TheCircleUndone.Expert],
+  [
+    "The Dream-Eaters : The Dream-Quest (Easy)",
+    Bags.TheDreamEatersTheDreamQuest.Easy
+  ],
+  [
+    "The Dream-Eaters : The Dream-Quest (Standard)",
+    Bags.TheDreamEatersTheDreamQuest.Standard
+  ],
+  [
+    "The Dream-Eaters : The Dream-Quest (Hard)",
+    Bags.TheDreamEatersTheDreamQuest.Hard
+  ],
+  [
+    "The Dream-Eaters : The Dream-Quest (Expert)",
+    Bags.TheDreamEatersTheDreamQuest.Expert
+  ],
+  [
+    "The Dream-Eaters : The Web of Dreams (Easy)",
+    Bags.TheDreamEatersTheWebOfDreams.Easy
+  ],
+  [
+    "The Dream-Eaters : The Web of Dreams (Standard)",
+    Bags.TheDreamEatersTheWebOfDreams.Standard
+  ],
+  [
+    "The Dream-Eaters : The Web of Dreams (Hard)",
+    Bags.TheDreamEatersTheWebOfDreams.Hard
+  ],
+  [
+    "The Dream-Eaters : The Web of Dreams (Expert)",
+    Bags.TheDreamEatersTheWebOfDreams.Expert
+  ],
   ["Curse of the Rougarou (Standard)", Bags.CurseOfTheRougarou.Standard],
   ["Curse of the Rougarou (Hard)", Bags.CurseOfTheRougarou.Hard],
   ["Carnevale of Horrors (Standard)", Bags.CarnevaleOfHorrors.Standard],
@@ -46,7 +78,12 @@ export const AvailableBags: Array<[string, Token[]]> = [
   ["The Labyrinths of Lunacy (Standard)", Bags.TheLabyrinthsOfLunacy.Standard],
   ["The Labyrinths of Lunacy (Hard)", Bags.TheLabyrinthsOfLunacy.Hard],
   ["Guardians of the Abyss (Standard)", Bags.GuardiansOfTheAbyss.Standard],
-  ["Guardians of the Abyss (Hard)", Bags.GuardiansOfTheAbyss.Hard]
+  ["Guardians of the Abyss (Hard)", Bags.GuardiansOfTheAbyss.Hard],
+  [
+    "Murder at the Excelsior Hotel (Standard)",
+    Bags.MurderAtTheExcelsiorHotel.Standard
+  ],
+  ["Murder at the Excelsior Hotel (Hard)", Bags.MurderAtTheExcelsiorHotel.Hard]
 ];
 
 export interface PullProtocol {
