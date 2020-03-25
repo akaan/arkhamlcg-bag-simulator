@@ -597,9 +597,9 @@ argparse@^1.0.7:
     sprintf-js "~1.0.2"
 
 arkham-odds@^0.5.5:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/arkham-odds/-/arkham-odds-0.5.5.tgz#242ebde88847ef43262761cef7f7da5b37c89d70"
-  integrity sha512-HIGF5Z4wBlXFjeLxnu/kw0uGJ3Sb/RWiJ+Q8IZZG2Lb30g48bbnpb+JRPc6ZabpzOjFnZ2x9LJnqccp5bkU8eg==
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/arkham-odds/-/arkham-odds-0.5.6.tgz#030e15a473509673cd8b523fd9ba353b0c4394b3"
+  integrity sha512-1RY2TBOvF1rsTYPL/kCJ1FfLZbT+4McZ0NMZjSr4PAzY86llaF/83hyimoF+FwZkt6gatQkTvvbKFY6wvzq8ew==
 
 arr-diff@^4.0.0:
   version "4.0.0"
@@ -4912,7 +4912,6 @@ npm@^6.9.0:
     cmd-shim "^3.0.3"
     columnify "~1.5.4"
     config-chain "^1.1.12"
-    debuglog "*"
     detect-indent "~5.0.0"
     detect-newline "^2.1.0"
     dezalgo "~1.0.3"
@@ -4927,7 +4926,6 @@ npm@^6.9.0:
     has-unicode "~2.0.1"
     hosted-git-info "^2.8.8"
     iferr "^1.0.2"
-    imurmurhash "*"
     infer-owner "^1.0.4"
     inflight "~1.0.6"
     inherits "^2.0.4"
@@ -4946,14 +4944,8 @@ npm@^6.9.0:
     libnpx "^10.2.2"
     lock-verify "^2.1.0"
     lockfile "^1.0.4"
-    lodash._baseindexof "*"
     lodash._baseuniq "~4.6.0"
-    lodash._bindcallback "*"
-    lodash._cacheindexof "*"
-    lodash._createcache "*"
-    lodash._getnative "*"
     lodash.clonedeep "~4.5.0"
-    lodash.restparam "*"
     lodash.union "~4.6.0"
     lodash.uniq "~4.5.0"
     lodash.without "~4.4.0"

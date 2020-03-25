@@ -52,7 +52,7 @@
     "@cycle/isolate": "^5.0.0",
     "@cycle/run": "^5.2.0",
     "@cycle/state": "^1.2.0",
-    "arkham-odds": "^0.5.5",
+    "arkham-odds": "^0.5.6",
     "bootstrap": "^4.3.1",
     "cyclejs-utils": "^4.0.2",
     "highcharts": "^7.1.2",

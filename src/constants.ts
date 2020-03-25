@@ -1,6 +1,7 @@
 import {
   Bags,
   darkProphecy,
+  jacqueline,
   odds,
   OddsFn,
   oddsWithRedraw,
@@ -178,6 +179,14 @@ export const AvailableCardAbilities: Array<[string, PullProtocol]> = [
       numberOfTokensToPull: 3,
       oddsFunction: odds,
       outcomeFunction: oliveMcBrideAndWinchesterDoing3Damage
+    }
+  ],
+  [
+    "Jacqueline Fine's ability",
+    {
+      numberOfTokensToPull: 3,
+      oddsFunction: odds,
+      outcomeFunction: jacqueline
     }
   ]
 ];
