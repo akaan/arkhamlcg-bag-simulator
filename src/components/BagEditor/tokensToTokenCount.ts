@@ -28,7 +28,9 @@ export function tokensToTokenCount(tokens: Token[]): TokenCount[] {
       { tokenFace: Token.CULTIST, count: 0 },
       { tokenFace: Token.TABLET, count: 0 },
       { tokenFace: Token.ELDER_THING, count: 0 },
-      { tokenFace: Token.AUTOFAIL, count: 0 }
+      { tokenFace: Token.AUTOFAIL, count: 0 },
+      { tokenFace: Token.BLESS, count: 0 },
+      { tokenFace: Token.CURSE, count: 0 }
     ] as TokenCount[]
   );
 }
