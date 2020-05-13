@@ -1,6 +1,7 @@
 import { VNode } from "@cycle/dom";
 import { Bag, TokenEffects } from "arkham-odds";
 import { Stream } from "xstream";
+import debounce from "xstream/extra/debounce";
 import { PullProtocol } from "../../constants";
 import { ChartRequests } from "../../drivers/highchartsDriver";
 import { chartRequests } from "./chartRequests";
@@ -30,6 +31,6 @@ interface Sinks {
 export function OddsChart(sources: Sources): Sinks {
   return {
     DOM: view(sources.props$),
-    charts: chartRequests(sources.props$)
+    charts: chartRequests(sources.props$.compose(debounce(500)))
   };
 }
