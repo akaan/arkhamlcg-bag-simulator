@@ -55,7 +55,7 @@
     "arkham-odds": "^0.6.4",
     "bootstrap": "^4.3.1",
     "cyclejs-utils": "^4.0.2",
-    "highcharts": "^7.1.2",
+    "highcharts": "^9.0.0",
     "xstream": "^11.11.0"
   }
 }
